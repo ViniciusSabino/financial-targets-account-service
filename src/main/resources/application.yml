@@ -1,9 +1,17 @@
 spring:
   profiles:
-    active: ${ENV}
+    active: dev
+  datasource:
+    url: "jdbc:postgresql://127.0.0.1:5432/financial-targets-db"
+    username: postgres
+    password: G~w<Yq=&fU;93kNLZ
 
-  ## Server
 server:
-  port: ${ENV_PORT:8085}
+  port: 8082
   servlet:
-    contextPath: ${ENV_CTX_PATH:/api}
+    contextPath: /account-api
+
+info:
+  app:
+    name: Financial Targets Account Service
+    version: '0.0.1-SNAPSHOT'
