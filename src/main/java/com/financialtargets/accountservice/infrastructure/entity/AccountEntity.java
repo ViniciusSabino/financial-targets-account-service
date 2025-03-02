@@ -1,17 +1,8 @@
 package com.financialtargets.accountservice.infrastructure.entity;
 
+import com.financialtargets.accountservice.domain.enums.AccountTypeEnum;
 import com.financialtargets.accountservice.domain.model.Account;
-import com.financialtargets.accountservice.domain.model.mapper.AccountMapper;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.Instant;
@@ -30,6 +21,9 @@ public class AccountEntity {
     @Column(name="name", length=255, nullable=false, unique=true)
     private String name;
 
+    @Column(name="balance", nullable = false)
+    private float balance;
+
     @Column(name="is_main", nullable=false)
     private boolean isMain;
 
@@ -45,6 +39,15 @@ public class AccountEntity {
     private boolean isActive;
 
     public Account toModel() {
-        return AccountMapper.INSTANCE.entityToModel(this);
+        return Account.builder()
+                .id(this.id)
+                .name(this.name)
+                .accountType(AccountTypeEnum.valueOf(this.accountType.getName()))
+                .balance(this.balance)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .isActive(this.isActive)
+                .isMain(this.isMain)
+                .build();
     }
 }
